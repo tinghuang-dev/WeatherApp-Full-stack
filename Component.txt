@@ -1,0 +1,26 @@
+- Body render background image and layout of Local weather, other cities and forecast
+  - LocalWeather: render background image and local weather, layout of forecast and city name
+    - Forecast: render forecast, layout of temperature, main weather, humidity, and wind
+      - Temperature: render value with icon
+      - MainWeather: render value
+      Flex
+      - WeatherItem: render weather item humidity, layout of title and value
+      border
+      - WeatherItem: render weather item wind, layout of title and value
+    - CityName: render value and a fancy border bottom
+  - OtherCities: rencer section with title and list of cities
+    -Section: render layout of title and list of city weathers
+      - CityWeather: render city weather
+        - CityName: render value
+        - Temperature: render value with icon
+        - WeatherIcon: render weather image by icon value
+  - Forecast: render forecast title and list of daily weathers
+    -Section: -
+      - DailyWeather: render daily weather
+      - Day
+      - WeatherIcon: render weather image by icon value
+      - Temperature: render value with icon
+
+- Temperature
+- WeatherIcon
+- Section: layout of title and something
