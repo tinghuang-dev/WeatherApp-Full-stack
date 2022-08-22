@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CityName from "./CityName";
 import Weather from "./Weather";
 import { getWeathers } from "../../../api/getWeathers";
+import CelsiusConversion from "../../../api/CelsiusConversion";
 
 const Layout = styled.div`
   display: flex;
@@ -33,7 +34,12 @@ const LocalWeather = ({ cityId }) => {
 
   return (
     <Layout>
-      <Weather data={data} />
+      <Weather
+        temperature={CelsiusConversion(data.main.temp)}
+        mainWeather={data.weather[0].main}
+        humidity={data.main.humidity}
+        windSpeed={data.wind.speed}
+      />
       <CityName name={data.name} />
     </Layout>
   );
