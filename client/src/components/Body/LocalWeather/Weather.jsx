@@ -1,7 +1,7 @@
 import Temperature from "../Temperature";
 import styled from "styled-components";
 import WeatherItem from "./components/WeatherItem";
-import { useState } from "react";
+import CelsiusConversion from "../../../api/CelsiusConversion";
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,15 +34,15 @@ const WeatherItemWarpper = styled.div`
   margin-top: 3rem;
 `;
 
-const Weather = ({ temperature, mainWeather, humidity, wind }) => {
+const Weather = ({ data }) => {
   return (
     <Wrapper>
-      <StyledTemperature value={temperature} />
-      <MainWeather>{mainWeather}</MainWeather>
+      <StyledTemperature value={CelsiusConversion(data.main.temp)} />
+      <MainWeather>{data.weather[0].main}</MainWeather>
       <WeatherItemWarpper>
-        <WeatherItem title="HUMIDITY">{humidity}%</WeatherItem>
+        <WeatherItem title="HUMIDITY">{data.main.humidity}%</WeatherItem>
         <VerticalDivider />
-        <WeatherItem title="WIND">{wind} K/M</WeatherItem>
+        <WeatherItem title="WIND">{data.wind.speed} K/M</WeatherItem>
       </WeatherItemWarpper>
     </Wrapper>
   );

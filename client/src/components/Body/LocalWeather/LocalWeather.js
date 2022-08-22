@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import CityName from "./CityName";
 import Weather from "./Weather";
-import axios from "axios";
-import { getWeathers } from "../../../api/Weathers";
-import CelsiusConversion from "../../../api/CelsiusConversion";
+import { getWeathers } from "../../../api/getWeathers";
 
 const Layout = styled.div`
   display: flex;
@@ -18,32 +16,25 @@ const Layout = styled.div`
   justify-content: space-between;
 `;
 
-const LocalWeather = () => {
-  const [cityName, setCityName] = useState("");
-  const [temperature, setTemperature] = useState("");
-  const [mainWeather, setMainWeather] = useState("");
-  const [humidity, setHumidity] = useState("");
-  const [wind, setWind] = useState("");
+const LocalWeather = ({ cityId }) => {
+  const [data, setData] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getWeathers("2174003").then(({ data }) => {
-      setCityName(data.name);
-      setTemperature(CelsiusConversion(data.main.temp));
-      setMainWeather(data.weather[0].main);
-      setHumidity(data.main.humidity);
-      setWind(data.wind.speed);
+    getWeathers(cityId, "weathers").then(({ data }) => {
+      setData(data);
+      setLoading(false);
     });
-  }, []);
+  }, [cityId]);
+
+  if (loading) {
+    return <div>loading...</div>;
+  }
 
   return (
     <Layout>
-      <Weather
-        temperature={temperature}
-        mainWeather={mainWeather}
-        humidity={humidity}
-        wind={wind}
-      />
-      <CityName name={cityName} />
+      <Weather data={data} />
+      <CityName name={data.name} />
     </Layout>
   );
 };

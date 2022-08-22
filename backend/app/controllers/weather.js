@@ -8,6 +8,23 @@ exports.getCityById = async (req, res) => {
   res.send(result.data);
 };
 
+exports.getCitiesById = async (req, res) => {
+  const { id } = req.body;
+
+  const result = await openweathermapServiceAPI.getWeathers(id);
+  res.send(result.data);
+};
+
+exports.getForecastById = async (req, res) => {
+  const { id } = req.body;
+
+  const result = await openweathermapServiceAPI.getForecast(id);
+  const filteredResult = result.data.list.filter((i) =>
+    i.dt_txt.includes("12:00:00")
+  );
+  res.send(filteredResult);
+};
+
 //POST
 exports.store = (req, res) => {
   res.send("Done1!");

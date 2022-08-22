@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import CelsiusConversion from "../../../../api/CelsiusConversion";
 import Temperature from "../../Temperature";
 import WeatherIcon from "../../WeatherIcon";
 
@@ -28,7 +29,7 @@ const DailyWeather = ({ day, temperature, weather }) => (
   <Wrapper>
     <Day>{day}</Day>
     <WeatherIcon value={weather.icon} description={weather.description} />
-    <StyledTemperature value={temperature} />
+    <StyledTemperature value={CelsiusConversion(temperature)} />
   </Wrapper>
 );
 

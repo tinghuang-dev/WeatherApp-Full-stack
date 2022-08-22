@@ -1,55 +1,42 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { getForecast } from "../../../api/getForecast";
 import Section from "../Section";
 import DailyWeather from "./component/DailyWeather";
+import { getDay } from "date-fns";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
 `;
 
-const Forecast = () => {
-  const [forecast, setForcast] = useState([
-    {
-      id: "MON",
-      day: "MON",
-      weather: { icon: "04d", description: "Clouds" },
-      temperature: "21",
-    },
-    {
-      id: " TUE",
-      day: "  TUE",
-      weather: { icon: "04d", description: "Clouds" },
-      temperature: "21",
-    },
-    {
-      id: "WED",
-      day: "WED",
-      weather: { icon: "04d", description: "Clouds" },
-      temperature: "21",
-    },
-    {
-      id: "THU",
-      day: "THU",
-      weather: { icon: "04d", description: "Clouds" },
-      temperature: "21",
-    },
-    {
-      id: "FRI",
-      day: "FRI",
-      weather: { icon: "01d", description: "Clouds" },
-      temperature: "21",
-    },
-  ]);
+const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+const Forecast = ({ cityId }) => {
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getForecast(cityId).then(({ data }) => {
+      setData(data);
+      setLoading(false);
+    });
+  }, [cityId]);
+
+  if (loading) {
+    return;
+  }
+
   return (
     <Section title="Forecast">
       <Wrapper>
-        {forecast.map(({ id, day, weather, temperature }) => (
+        {data.map(({ dt, main: { temp }, weather: [weather] }) => (
           <DailyWeather
-            id={id}
-            day={day}
+            key={dt}
+            day={DAYS[getDay(new Date(dt * 1000))]}
             weather={weather}
-            temperature={temperature}
+            temperature={temp}
           />
         ))}
       </Wrapper>

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { getWeathers } from "../../api/Weathers";
+import { getGroupWeathers } from "../../api/getGroupWeathers";
 
 export function getCurrentDate(separator = "") {
   let time = new Date().toLocaleString();
@@ -8,7 +8,7 @@ export function getCurrentDate(separator = "") {
 
 const LocalTime = () => {
   useEffect(() => {
-    getWeathers("1668341").then(({ data }) => {
+    getGroupWeathers("1668341").then(({ data }) => {
       const sunrise = new Date((data.sys.sunrise + data.timezone) * 1000);
       console.log(sunrise);
       return sunrise;

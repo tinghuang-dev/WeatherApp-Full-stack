@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Forecast from "./Body/Forecast/Forecast";
 import LocalWeather from "./Body/LocalWeather/LocalWeather";
@@ -24,13 +25,14 @@ const VerticalDivider = styled.div`
 `;
 
 const Body = () => {
+  const [cityId, setCityId] = useState(2174003);
   return (
     <Container>
-      <LocalWeather />
+      <LocalWeather cityId={cityId} />
       <Layout>
-        <OtherCities />
+        <OtherCities currentCityId={cityId} setCityId={setCityId} />
         <VerticalDivider />
-        <Forecast />
+        <Forecast cityId={cityId} />
       </Layout>
     </Container>
   );

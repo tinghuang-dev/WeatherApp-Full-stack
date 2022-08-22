@@ -1,53 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getGroupWeathers } from "../../../api/getGroupWeathers";
 import Section from "../Section";
 import CityWeather from "./component/CityWeather";
 
-const OtherCities = () => {
-  // eslint-disable-next-line
-  const [weathers, setWeathers] = useState([
-    {
-      id: "2174003",
-      name: "Brisbane",
-      temperature: "21",
-      weather: { icon: "04d", description: "Clouds" },
-    },
-    {
-      id: "2147714",
-      name: "Sydney",
-      temperature: "21",
-      weather: { icon: "04d", description: "Clouds" },
-    },
-    {
-      id: "2158177",
-      name: "Melbourne",
-      temperature: "21",
-      weather: { icon: "04d", description: "Clouds" },
-    },
-    {
-      id: "1668341",
-      name: "Teipei",
-      temperature: "21",
-      weather: { icon: "04d", description: "Clouds" },
-    },
-  ]);
+const OtherCities = ({ currentCityId, setCityId }) => {
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   getWeathers("2174003").then(({ data }) => {
-  //     setCityName(data.name);
-  //     setTemperature(CelsiusConversion(data.main.temp));
-  //     setMainWeather(data.weather[0].main);
-  //     setHumidity(data.main.humidity);
-  //     setWind(data.wind.speed);
-  //   });
-  // }, []);
+  useEffect(() => {
+    const otherCitiesId = [2174003, 2147714, 2158177, 1668341].filter(
+      (id) => id !== currentCityId
+    );
+    getGroupWeathers(otherCitiesId).then(({ data }) => {
+      setData(data);
+      setLoading(false);
+    });
+  }, [currentCityId]);
+
+  if (loading) {
+    return;
+  }
 
   return (
     <Section title="Other Cities">
-      {weathers.map(({ id, name, temperature, weather }) => (
+      {data.list.map(({ id, name, main: { temp }, weather: [weather] }) => (
         <CityWeather
+          key={id}
           id={id}
+          setCityId={setCityId}
           name={name}
-          temperature={temperature}
+          temperature={temp}
           weather={weather}
         />
       ))}
