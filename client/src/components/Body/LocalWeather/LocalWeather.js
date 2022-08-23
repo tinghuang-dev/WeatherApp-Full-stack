@@ -4,6 +4,7 @@ import CityName from "./CityName";
 import Weather from "./Weather";
 import { getWeathers } from "../../../api/getWeathers";
 import CelsiusConversion from "../../../api/CelsiusConversion";
+import CircularIndeterminate from "../../CircularIndeterminate";
 
 const Layout = styled.div`
   display: flex;
@@ -29,7 +30,7 @@ const LocalWeather = ({ cityId }) => {
   }, [cityId]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return <CircularIndeterminate />;
   }
 
   return (
